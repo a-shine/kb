@@ -1,0 +1,37 @@
+name: compile_deploy
+
+on:
+  push:
+    branches: ["main"]
+  
+
+  workflow_dispatch:
+
+jobs:
+  build: # run markdown-it script upload artifact in .out folder to be used by deploy job
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: node index.js
+      - name: Upload build
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: dist
+  
+  deploy: # deploy to github pages
+    needs: ["build"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: dist # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch
+
