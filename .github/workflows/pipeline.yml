@@ -19,8 +19,8 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:
-          name: build
-          path: dist
+          name: compiledHtml
+          path: ./out
   
   deploy: # deploy to github pages
     needs: ["build"]
@@ -32,6 +32,6 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: dist # The folder the action should deploy.
+          FOLDER: out/ # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
 

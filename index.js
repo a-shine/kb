@@ -1,5 +1,9 @@
 const fs = require('fs');
+
+// https://github.com/jsepia/markdown-it-wikilinks
 const wikilinks = require('markdown-it-wikilinks')()
+
+// https://github.com/markdown-it/markdown-it
 const md = require('markdown-it')();
 
 // create .out folder if it doesn't exist
