@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build: # run markdown-it script upload artifact in .out folder to be used by deploy job
+  compile_deploy: # run markdown-it script upload artifact in .out folder to be used by deploy job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,17 +17,6 @@ jobs:
         run: npm install
       - name: Execute script to compile markdown to html
         run: node index.js
-      - name: Upload output
-        uses: actions/upload-artifact@v2
-        with:
-          name: html_output
-          path: ./out
-  
-  deploy: # deploy to github pages
-    needs: ["build"]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
@@ -35,4 +24,17 @@ jobs:
           BRANCH: gh-pages
           FOLDER: out
           CLEAN: true
+  
+  # deploy: # deploy to github pages
+  #   needs: ["build"]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Deploy to GitHub Pages
+  #       uses: JamesIves/github-pages-deploy-action@releases/v3
+  #       with:
+  #         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+  #         BRANCH: gh-pages
+  #         FOLDER: out
+  #         CLEAN: true
 
