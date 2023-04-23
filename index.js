@@ -20,3 +20,9 @@ fs.readdirSync('./').forEach(file => {
         fs.writeFileSync(`./out/${file.replace('.md', '.html')}`, html);
     }
 });
+
+
+// Convert README.html to index.html
+const readme = fs.readFileSync('./out/README.html', 'utf-8');
+fs.writeFileSync('./out/index.html', readme);
+fs.unlinkSync('./out/README.html'); // delete README.html
