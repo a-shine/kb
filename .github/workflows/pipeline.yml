@@ -3,7 +3,6 @@ name: compile_deploy
 on:
   push:
     branches: ["main"]
-  
 
   workflow_dispatch:
 
@@ -18,23 +17,6 @@ jobs:
       - name: Execute script to compile markdown to html
         run: node index.js
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages
           FOLDER: out
-          CLEAN: true
-  
-  # deploy: # deploy to github pages
-  #   needs: ["build"]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Deploy to GitHub Pages
-  #       uses: JamesIves/github-pages-deploy-action@releases/v3
-  #       with:
-  #         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-  #         BRANCH: gh-pages
-  #         FOLDER: out
-  #         CLEAN: true
-
