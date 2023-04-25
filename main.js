@@ -13,9 +13,24 @@ if (!fs.existsSync('./out')) {
 // Place output in .out folder
 fs.readdirSync('./').forEach(file => {
     if (file.endsWith('.md')) {
-        const markdownText = fs.readFileSync(file, 'utf-8');
-        const html = md.use(wikilinks).render(markdownText)
-        fs.writeFileSync(`./out/${file.replace('.md', '.html')}`, html);
+        const rawMarkdownText = fs.readFileSync(file, 'utf-8');
+        
+        var frontMatter = "";
+        var markdownContent = rawMarkdownText;
+        
+        // Cut the content between the 3 dashes from the raw markdown and remove from the markdownText
+        try {
+            frontMatter = rawMarkdownText.match(/---[\s\S]*---/)[0];
+            markdownContent = rawMarkdownText.replace(/---[\s\S]*---/, '');
+        } catch (error) {
+            console.log(`Error: ${file} does not have a front matter. Skipping...`)
+        }
+
+        const html = md.use(wikilinks).render(markdownContent)
+        
+        // Append front matter to the html
+        fs.writeFileSync(`./out/${file.replace('.md', '.html')}`, frontMatter + '\r' + html);
+        // fs.writeFileSync(`./out/${file.replace('.md', '.html')}`, html);
     }
 });
 
