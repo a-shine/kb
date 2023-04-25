@@ -6,6 +6,7 @@ const wikilinks = require('markdown-it-wikilinks')()
 // https://github.com/markdown-it/markdown-it
 const md = require('markdown-it')();
 
+
 // create .out folder if it doesn't exist
 if (!fs.existsSync('./out')) {
     fs.mkdirSync('./out');
