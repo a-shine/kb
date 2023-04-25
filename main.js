@@ -67,9 +67,9 @@ fs.readdirSync("./").forEach((file) => {
 fs.unlinkSync("./out/README.html");
 
 // Copy _assets folder to out/
-fs.mkdirSync("./out/_assets");
+fs.mkdirSync("./out/assets");
 fs.readdirSync("./_assets").forEach((file) => {
-  fs.copyFileSync(`./_assets/${file}`, `./out/_assets/${file}`);
+  fs.copyFileSync(`./_assets/${file}`, `./out/assets/${file}`);
 });
 
 // Copy _layouts folder to out/
