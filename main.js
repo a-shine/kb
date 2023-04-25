@@ -1,7 +1,35 @@
 const fs = require('fs');
 
 const md = require('markdown-it')(); // https://github.com/markdown-it/markdown-it
-const wikilinks = require('markdown-it-wikilinks')() // https://github.com/jsepia/markdown-it-wikilinks
+const wikilinks = require('markdown-it-wikilinks')(); // https://github.com/jsepia/markdown-it-wikilinks
+// const mdFrontMatter = require('markdown-it-front-matter')();
+
+
+function extractFrontMatter(text) {
+    var frontMatter;
+    var markdownContent;
+    var frontMatterDetected;
+
+    try {
+        frontMatter = text.match(/---[\s\S]*---/)[0];
+        frontMatterDetected = true;
+    } catch (e) {
+        if (e instanceof TypeError) {
+            // TypeError: Cannot read property '0' of null
+            // This means that the front matter was not detected
+            frontMatterDetected = false;
+        } else {
+            throw e;
+        }
+    }
+
+    if (frontMatterDetected) {
+        markdownContent = text.replace(/---[\s\S]*---/, '');
+        return { frontMatter, markdownContent, frontMatterDetected };
+    } else {
+        return { frontMatter: '', markdownContent: text, frontMatterDetected };
+    }
+}
 
 
 // Create out/ folder if it doesn't exist
@@ -15,22 +43,17 @@ fs.readdirSync('./').forEach(file => {
     if (file.endsWith('.md')) {
         const rawMarkdownText = fs.readFileSync(file, 'utf-8');
         
-        var frontMatter = "";
-        var markdownContent = rawMarkdownText;
+        const { frontMatter, markdownContent, frontMatterDetected } = extractFrontMatter(rawMarkdownText);
         
-        // Cut the content between the 3 dashes from the raw markdown and remove from the markdownText
-        try {
-            frontMatter = rawMarkdownText.match(/---[\s\S]*---/)[0];
-            markdownContent = rawMarkdownText.replace(/---[\s\S]*---/, '');
-        } catch (error) {
-            console.log(`Error: ${file} does not have a front matter. Skipping...`)
-        }
-
         const html = md.use(wikilinks).render(markdownContent)
         
         // Append front matter to the html
-        fs.writeFileSync(`./out/${file.replace('.md', '.html')}`, frontMatter + '\r' + html);
-        // fs.writeFileSync(`./out/${file.replace('.md', '.html')}`, html);
+
+        if (frontMatterDetected) {
+            fs.writeFileSync(`./out/${file.replace('.md', '.html')}`, frontMatter + '\n\n' + html);
+        } else {
+            fs.writeFileSync(`./out/${file.replace('.md', '.html')}`, html);
+        }   
     }
 });
 
