@@ -1,3 +1,8 @@
+---
+layout: default
+title: The system
+---
+
 Each note is an atomic concept. 
 
 This is an experiment to demonstrate how many concepts are relevant across fields and the traditional taxonomy of fileds such as ohysics, engineerinf, maths and computer science are limiting. 

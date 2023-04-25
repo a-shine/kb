@@ -18,8 +18,9 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Execute script to compile markdown to html
-        run: node index.js
+        run: node main.js
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
           FOLDER: out
+          
