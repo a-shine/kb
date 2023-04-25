@@ -63,6 +63,9 @@ fs.readdirSync("./").forEach((file) => {
   }
 });
 
+// Remove README.md from out/ folder
+fs.unlinkSync("./out/README.html");
+
 // Copy _assets folder to out/
 fs.mkdirSync("./out/_assets");
 fs.readdirSync("./_assets").forEach((file) => {
