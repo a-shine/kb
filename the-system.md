@@ -31,4 +31,12 @@ Approach
 Result
 - TBD
 
+Rules
+- No folders (limiting to hierachical connections)
+- No repetition (keep atomic)
 
+$test$
+
+$$
+\alpha
+$$
