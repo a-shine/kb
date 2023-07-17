@@ -3,6 +3,10 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
+    "[markdown]": {
+        "editor.wordWrap": "bounded",
+        "editor.wordWrapColumn": 80
+    },
     "eslint.validate": [
         "javascript",
         "javascriptreact",

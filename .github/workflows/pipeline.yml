@@ -1,10 +1,10 @@
 name: compile_deploy
 
 on:
-  push:
-    branches: ["main"]
+# push:
+#   branches: ["main"]
 
-  workflow_dispatch:
+workflow_dispatch:
 
 permissions:
   contents: write
@@ -23,4 +23,3 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
           FOLDER: out
-          
